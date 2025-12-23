@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import Customers from "./pages/Customers";
+import Sales from "./pages/Sales";
+import Products from "./pages/Products";
+import Suppliers from "./pages/Suppliers";
+import Purchases from "./pages/Purchases";
+import Treasury from "./pages/Treasury";
+import Branches from "./pages/Branches";
+import CustomerPortal from "./pages/CustomerPortal";
+import Documents from "./pages/Documents";
+import PostalPage from "./pages/PostalPage";
+import Inventory from "./pages/Inventory";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import Users from "./pages/Users";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/portal" element={<CustomerPortal />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+
+            {/* Admin Only Routes */}
+            <Route element={<AdminRoute />}>
+              <Route path="users" element={<Users />} />
+            </Route>
+
+            <Route path="customers" element={<Customers />} />
+            <Route path="sales" element={<Sales />} />
+            <Route path="products" element={<Products />} />
+            <Route path="suppliers" element={<Suppliers />} />
+            <Route path="purchases" element={<Purchases />} />
+            <Route path="treasury" element={<Treasury />} />
+            <Route path="inventory" element={<Inventory />} />
+            <Route path="branches" element={<Branches />} />
+            <Route path="documents" element={<Documents />} />
+            <Route path="postal" element={<PostalPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
